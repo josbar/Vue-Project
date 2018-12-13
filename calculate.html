@@ -1,0 +1,124 @@
++<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>calculate</title>
+    <script src="./vue.min.js"></script>
+    <style>
+        .caltor{
+          width: 400px;
+          margin: 0 auto;
+          font-size: 40px;
+          text-align: center;
+           display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: minmax(50px, auto);
+        }
+        .display{
+          grid-column: 1 / 5;
+          background-color: black;
+          color: white;
+        }
+        .zerocho{
+          grid-column: 1 / 3;
+        }
+        .btn{
+          background-color: rgba(191, 201, 201, 0.158);
+          border: 0.1px solid #333;
+        }
+        .op{
+          background-color: orange;
+          color: white;
+        }
+        </style>  
+</head>
+<body>
+
+        <div class="caltor" id="example-1">
+          <div class="display">  
+            {{ ct || 0 }}
+          </div>
+          <div @click="clear" class="btn">AC</div>
+          <div @click="sign" class="btn">+/-</div>
+          <div @click="percent" class="btn">%</div>
+          <div @click="divide" class="btn op">/</div>
+          <div @click="app('7')"  class="btn">7</div>
+          <div @click="app('8')"  class="btn">8</div>
+          <div @click="app('9')"  class="btn">9</div>
+          <div @click="times" class="btn op">*</div>
+          <div @click="app('4')"  class="btn">4</div>
+          <div @click="app('5')"  class="btn">5</div>
+          <div @click="app('6')"  class="btn">6</div>
+          <div @click="minus" class="btn op">-</div>
+          <div @click="app('1')"  class="btn">1</div>
+          <div @click="app('2')"  class="btn">2</div>
+          <div @click="app('3')"  class="btn">3</div>
+          <div @click="plus" class="btn op">+</div>
+          <div @click="app('0')"  class="btn zerocho">0</div>
+          <div @click="dot" class="btn">.</div>
+          <div @click="eq" class="btn op">=</div>
+        </div>
+        <script>
+            var example1 = new Vue({
+              el: '#example-1',
+              data: {
+                ct: ''
+              },
+              methods: {
+                clear() {
+                    this.ct = ''
+                },
+                sign() {
+                  this.ct = this.ct.charAt(0) === "-" ?
+                    this.ct.slice(1) : `-${this.ct}`;
+                },
+                percent() {
+                  this.ct = `${parseFloat(this.ct) / 100}`
+                },
+                app(num) {
+                  if (this.opclicked) {
+                    this.ct = '';
+                    this.opclicked = false;
+                  }
+                  this.ct = `${this.ct}${num}`;
+                },
+                dot() {
+                  if(this.ct.indexOf(".") === -1){
+                    this.app(".");
+                  }else{
+                    alert("이미 .(점) 이 있습니다")
+                  }
+                },
+                set() {
+                  this.pre = this.ct;
+                  this.opclicked = true;
+                },
+                divide() {
+                  this.op = (a, b) => a / b;
+                  this.set();
+                },
+                times() {
+                  this.op = (a, b) => a * b;
+                  this.set();
+                },
+                minus() {
+                  this.op = (a, b) => a - b;
+                  this.set();
+                },
+                plus() {
+                  this.op = (a, b) => a + b;
+                  this.set();
+                },
+                eq() {
+                  this.ct = `${this.op(
+                    parseFloat(this.ct),
+                    parseFloat(this.pre)
+                  )}`;
+                  this.pre = null;
+                }
+              }
+            })
+            </script>
+</body>
+</html>

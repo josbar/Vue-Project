@@ -26,18 +26,8 @@
               data () {
                   return {
                       newTodo: '',
-                      idForTodo: 3,
+                      idForTodo: 0,
                       todos: [
-                          {
-                              'id': 1,
-                              'title': 'Hello world',
-                              'completed': false,
-                          },
-                          {
-                              'id': 2,
-                              'title': 'Bye world',
-                              'completed': false,
-                          }
                       ]
                   }
               },
@@ -56,7 +46,8 @@
                       this.idForTodo++
                   },
                   removeTodo(index) {
-                      this.todos.splice(index, 1)
+                      this.todos.splice(index, 1);
+                      alert("removed!");
                   }
               }
             })
